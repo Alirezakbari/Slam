@@ -106,7 +106,7 @@ ROS 2 or Gazebo simulation installations are required!
 1. Clone the repository:
 
     ```commandline
-    git clone https://github.com/henki-robotics/robotics_essentials_ros2.git
+    git clone https://github.com/kaveh-hooshmandi/robotics_essentials_ros2.git
     ```
 
 1. Create a new workspace for your exercises. This will be automatically mounted and available from the Docker container

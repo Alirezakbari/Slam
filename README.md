@@ -6,16 +6,12 @@
 
 This repository is used for ROS 2 coursework at **Arak University of Technology** and is maintained by [Dr. Kaveh Hooshmandi](https://github.com/kaveh-hooshmandi).
 
-The original course materials were developed by [Henki Robotics](https://github.com/henki-robotics/robotics_essentials_ros2) with the University of Eastern Finland. Their original course description and contributor credits are retained below.
-
 Welcome to an open-source repository that contains materials and exercises needed 
 to learn the essential robotics skills using ROS 2. 
 
-This material is implemented for the 2024 iteration of the Master's level "Robotics & XR" course taught by 
-[Dr. Ilkka Jormanainen](https://www.linkedin.com/in/ilkka-jormanainen-5954441/) at the [University of Eastern Finland](https://www.uef.fi/en), in collaboration with [Henki Robotics](https://henkirobotics.com/).
+This edition is adapted for ROS 2 coursework at Arak University of Technology.
 
-[<img src="images/uef_logo.jpg" alt="UEF Logo" width="200" height="190"/>](https://www.uef.fi/en)
-[<img src="images/henki_robotics_logo.png" alt="Henki Robotics Logo" width="200" height="190"/>](https://henkirobotics.com/)
+[<img src="images/arak_university_wordmark.svg" alt="Arak University of Technology" width="360"/>](https://arakut.ac.ir/)
 
 ## Course overview
 
@@ -80,12 +76,14 @@ If you've found a fix to an existing issue, you can open a new Pull Request to f
 We highly appreciate all the contributions!
 
 ## Maintainers
-This course and repository is maintained by the main team members and co-founders of 
-[Henki Robotics Oy](https://henkirobotics.com/):
-- Janne Karttunen. [LinkedIn](https://www.linkedin.com/in/janne-karttunen-a22375209/). 
-[Github](https://github.com/Jannkar).
-- George-Cosmin Porusniuc. [LinkedIn](https://www.linkedin.com/in/george-cosmin-porusniuc-89019a168/).
-[Github](https://github.com/geoporus1).
+This Arak University of Technology edition is maintained by [Dr. Kaveh Hooshmandi](https://github.com/kaveh-hooshmandi).
+
+## Original contributors
+
+The original course materials were developed by Janne Karttunen and George-Cosmin Porusniuc in collaboration with the University of Eastern Finland. The 2024 Master's level "Robotics & XR" course was taught by [Dr. Ilkka Jormanainen](https://www.linkedin.com/in/ilkka-jormanainen-5954441/).
+
+- Janne Karttunen: [LinkedIn](https://www.linkedin.com/in/janne-karttunen-a22375209/), [GitHub](https://github.com/Jannkar).
+- George-Cosmin Porusniuc: [LinkedIn](https://www.linkedin.com/in/george-cosmin-porusniuc-89019a168/), [GitHub](https://github.com/geoporus1).
 
 ## Acknowledgements
 We want to thank the following individuals for helping us in developing part of the material for this course and for 

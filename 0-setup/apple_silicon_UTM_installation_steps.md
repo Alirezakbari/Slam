@@ -28,7 +28,7 @@ It would result something like in the image below.
 
 ![andino_env_working](images/Nayttokuva_2025-10-30_kello_22.38.19.webp)
 
-7) Now you can follow assignments in [our repository](https://github.com/henki-robotics/robotics_essentials_ros2).
+7) Now you can follow assignments in [our repository](https://github.com/kaveh-hooshmandi/robotics_essentials_ros2).
 Obviously you will have to repeat the [0-setup](../0-setup) section. NOTE! When using this installation you must skip 
 any Docker-related instructions or steps, since you will work with ROS 2 Humble that is straight installed system-wide
 on the Ubuntu running inside UTM.

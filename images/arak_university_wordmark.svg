@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="160" viewBox="0 0 720 160" role="img" aria-labelledby="title">
+  <title id="title">Arak University of Technology</title>
+  <rect width="720" height="160" rx="16" fill="#f3f7fb"/>
+  <g fill="none" stroke="#204579" stroke-width="8" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="78" cy="80" r="44"/>
+    <path d="M56 101 78 55l22 46M64 87h28"/>
+    <path d="M78 21v-10M78 149v-10M19 80H9M147 80h-10" stroke-width="5"/>
+  </g>
+  <text x="160" y="74" fill="#204579" font-family="Arial, sans-serif" font-size="50" font-weight="700">ARAK</text>
+  <text x="162" y="112" fill="#204579" font-family="Arial, sans-serif" font-size="23" letter-spacing="2">UNIVERSITY OF TECHNOLOGY</text>
+</svg>
