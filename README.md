@@ -2,6 +2,12 @@
 
 # Robotics & ROS 2 Essentials
 
+## Arak University of Technology course edition
+
+This repository is used for ROS 2 coursework at **Arak University of Technology** and is maintained by [Dr. Kaveh Hooshmandi](https://github.com/kaveh-hooshmandi).
+
+The original course materials were developed by [Henki Robotics](https://github.com/henki-robotics/robotics_essentials_ros2) with the University of Eastern Finland. Their original course description and contributor credits are retained below.
+
 Welcome to an open-source repository that contains materials and exercises needed 
 to learn the essential robotics skills using ROS 2. 
 
