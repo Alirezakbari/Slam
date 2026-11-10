@@ -14,6 +14,11 @@ services:
     #runtime: nvidia
     tty: true
     user: user
+    devices:
+      - /dev/dri:/dev/dri
+    group_add:
+      - video
+      - "992"
     volumes:
       - $HOME/exercises_ws/src:/home/user/exercises_ws/src
       - /tmp/.X11-unix:/tmp/.X11-unix

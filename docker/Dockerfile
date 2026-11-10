@@ -6,7 +6,9 @@ ARG UID=1000
 ARG GID=1000
 RUN groupadd -g ${GID} -o ${UNAME}
 RUN useradd -m -u ${UID} -g ${GID} -o -s /bin/bash ${UNAME}
-RUN usermod -aG sudo ${UNAME}
+RUN usermod -aG sudo,video ${UNAME}
+RUN groupadd -g 992 render_host 2>/dev/null || true
+RUN usermod -aG 992 ${UNAME} 2>/dev/null || true
 RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 USER ${UNAME}
 

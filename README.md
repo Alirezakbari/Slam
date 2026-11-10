@@ -22,19 +22,21 @@
 ## 📑 Table of Contents
 
 - [Overview](#-overview)
+- [How to Run (Standard Workflow)](#-how-to-run-standard-workflow)
+  - [Step 0: GUI Permission](#step-0-gui-permission)
+  - [Step 1: Start Docker Container](#step-1-start-docker-container)
+  - [Step 2: Terminal 1 — Launch Simulation & Robot](#step-2-terminal-1--launch-simulation--robot)
+  - [Step 3: Terminal 2 — Start SLAM Toolbox](#step-3-terminal-2--start-slam-toolbox)
+  - [Step 4: Terminal 3 — Autonomous Exploration (`auto_explore`)](#step-4-terminal-3--autonomous-exploration-auto_explore)
+  - [Step 5: Save the Generated Map](#step-5-save-the-generated-map)
+  - [Step 6: Autonomous Navigation with Nav2](#step-6-autonomous-navigation-with-nav2)
 - [Key Features](#-key-features)
 - [System Architecture](#-system-architecture)
 - [Sensor Calibration & Mathematical Model](#-sensor-calibration--mathematical-model)
-- [Quick Start Guide](#-quick-start-guide)
-  - [Prerequisites](#prerequisites)
-  - [Running the Autonomous Pipeline](#running-the-autonomous-pipeline)
-- [Workflow Details](#-workflow-details)
-  - [1. Autonomous SLAM Mapping](#1-autonomous-slam-mapping)
-  - [2. Saving the Map](#2-saving-the-map)
-  - [3. Nav2 Autonomous Navigation](#3-nav2-autonomous-navigation)
+- [Alternative Shortcut Runners](#-alternative-shortcut-runners)
 - [Project Directory Structure](#-project-directory-structure)
 - [Key ROS 2 Topics & Services](#-key-ros-2-topics--services)
-- [Troubleshooting & Tips](#-troubleshooting--tips)
+- [Troubleshooting & Common Errors](#-troubleshooting--common-errors)
 - [Credits & Acknowledgements](#-credits--acknowledgements)
 
 ---
@@ -47,15 +49,99 @@ Equipped with a custom **Smart Autonomous Explorer Node** (`auto_explore.py`), t
 
 ---
 
+## 🚀 How to Run (Standard Workflow)
+
+### Step 0: GUI Permission
+Before starting the containers, allow Docker to connect to your X11 display (run this in your host terminal):
+
+```bash
+xhost +
+```
+
+---
+
+### Step 1: Start Docker Container
+Open a terminal in the project directory and start the Docker environment:
+
+```bash
+cd ~/Slam
+docker compose up
+```
+
+> 💡 *Leave this terminal open. The container is now running and ready in the background.*
+
+---
+
+### Step 2: Terminal 1 — Launch Simulation & Robot
+Open a **new terminal** and launch the Gazebo simulation with Andino and RViz:
+
+```bash
+docker exec -it robotics_essentials_ros2 bash
+ros2 launch andino_gz andino_gz.launch.py
+```
+
+> ⚠️ **Important:** Once Gazebo opens, click the **Play (▷)** button in the bottom toolbar to start simulation physics!
+
+---
+
+### Step 3: Terminal 2 — Start SLAM Toolbox
+Open a **second terminal** and launch the online SLAM mapping node:
+
+```bash
+docker exec -it robotics_essentials_ros2 bash
+ros2 launch andino_gz slam_toolbox_online_async.launch.py
+```
+
+---
+
+### Step 4: Terminal 3 — Autonomous Exploration (`auto_explore`)
+Open a **third terminal** and run the autonomous exploration node:
+
+```bash
+docker exec -it robotics_essentials_ros2 bash
+auto_explore
+```
+
+Sit back and watch the robot:
+1. Perform an initial $360^\circ$ scan to seed the SLAM map.
+2. Autonomously navigate through the warehouse corridors.
+3. Dynamically detect and bypass obstacles and corners with smooth arc steering.
+4. Build the complete 2D occupancy grid in RViz in real time!
+
+---
+
+### Step 5: Save the Generated Map
+When the map is complete, press `Ctrl + C` in Terminal 3 to stop exploration, and save the map:
+
+```bash
+ros2 run nav2_map_server map_saver_cli --free 0.15 --fmt png -f $HOME/andino_map
+```
+
+*(Map files `andino_map.yaml` and `andino_map.png` will be created in your home directory).*
+
+---
+
+### Step 6: Autonomous Navigation with Nav2
+Stop the previous nodes (`Ctrl + C` in terminals 1 & 2), then launch the simulation with Nav2:
+
+```bash
+docker exec -it robotics_essentials_ros2 bash
+ros2 launch andino_gz andino_gz.launch.py nav2:=True
+```
+
+1. **Set Initial Pose**: Click **2D Pose Estimate** in the top RViz toolbar, then click and drag at the robot's approximate position on the map.
+2. **Send Goal**: Click **Nav2 Goal** anywhere on the map. The global planner will compute the shortest feasible path, and the local controller will steer the robot around dynamic obstacles to the destination!
+
+---
+
 ## ✨ Key Features
 
-- 🤖 **Smart Autonomous Exploration**: Self-driving wanderer node with obstacle avoidance, smooth arc contour steering, and corner trap escape recovery.
+- 🤖 **Smart Autonomous Exploration**: Self-driving wanderer node (`auto_explore`) with real-time obstacle avoidance, smooth arc contour steering, and corner trap escape recovery.
 - 📐 **Rigorous Sensor Frame Calibration**: Solves the physical RPLiDAR $180^\circ$ yaw mounting inversion using real-time Cartesian transforms into `base_link`.
 - 🗺️ **State-of-the-Art 2D SLAM**: Powered by `slam_toolbox_online_async` with online pose-graph optimization and robust loop closure.
 - 🎯 **Complete Nav2 Integration**: Global & local costmaps, DWB trajectory controller, AMCL particle filter localization, and behavior recovery trees.
 - 🖥️ **Pre-Configured RViz2**: Custom layout displaying Map, LaserScan, TF frames, and costmap layers with no manual setup needed.
-- 🐳 **100% Dockerized**: Zero dependency headaches. Everything runs in isolated Ubuntu 22.04 + ROS 2 Humble containers.
-- ⚡ **One-Click Shell Runners**: Five dedicated scripts (`./1_start_sim.sh` to `./5_start_navigation.sh`) for seamless execution.
+- 🐳 **100% Dockerized**: Zero dependency headaches. Everything runs in isolated Ubuntu 22.04 + ROS 2 Humble containers with hardware-accelerated GPU passthrough.
 
 ---
 
@@ -144,33 +230,9 @@ $$\omega = (1 - \text{speed\_ratio}) \cdot \omega_{\text{max}} \cdot \text{dir}_
 
 ---
 
-## 🚀 Quick Start Guide
+## ⚡ Alternative Shortcut Runners
 
-### Prerequisites
-
-Ensure you have **Docker** and **Docker Compose** installed:
-
-```bash
-docker --version
-docker compose version
-```
-
-Grant X11 permissions for the Docker container GUI (Gazebo & RViz):
-
-```bash
-xhost +
-```
-
----
-
-### Running the Autonomous Pipeline
-
-Everything is automated using modular shell runners in the project directory:
-
-```bash
-git clone https://github.com/Alirezakbari/Slam.git
-cd Slam
-```
+If you prefer one-click host execution without manually attaching to Docker, you can run the helper scripts directly from your host machine:
 
 | Step | Script | Action |
 |:---:|:---|:---|
@@ -179,58 +241,6 @@ cd Slam
 | **3** | `./3_auto_explore.sh` | Launches the autonomous obstacle-avoidance & exploration node |
 | **4** | `./4_save_map.sh` | Saves the generated 2D occupancy map (`.yaml` + `.png`) |
 | **5** | `./5_start_navigation.sh` | Starts the Nav2 autonomous goal-navigation stack |
-
----
-
-## 📖 Workflow Details
-
-### 1. Autonomous SLAM Mapping
-
-Open three terminals:
-
-1. **Terminal 1 - Simulation & Robot:**
-   ```bash
-   ./1_start_sim.sh
-   ```
-   > 💡 *Click the **Play** button (triangle) in the bottom toolbar of Gazebo to start physics simulation.*
-
-2. **Terminal 2 - SLAM Toolbox:**
-   ```bash
-   ./2_start_slam.sh
-   ```
-
-3. **Terminal 3 - Autonomous Exploration:**
-   ```bash
-   ./3_auto_explore.sh
-   # Or inside the container: auto_explore
-   ```
-
-Watch the robot perform an initial $360^\circ$ scan and then autonomously drive through warehouse aisles, bypassing obstacles and constructing the 2D map in real time!
-
----
-
-### 2. Saving the Map
-
-Once the environment is sufficiently mapped, stop the exploration node with `Ctrl+C` in Terminal 3, then run:
-
-```bash
-./4_save_map.sh
-```
-
-Your map will be saved to both the container and host directory as `andino_map.yaml` and `andino_map.png`.
-
----
-
-### 3. Nav2 Autonomous Navigation
-
-Stop previous processes (`Ctrl+C`), then start the Nav2 navigation stack:
-
-```bash
-./5_start_navigation.sh
-```
-
-1. **Set Initial Pose**: Click **2D Pose Estimate** in the top RViz2 toolbar, then click and drag at the robot's approximate position in the map.
-2. **Set Goal**: Click **Nav2 Goal** anywhere on the map. The global planner will compute the shortest feasible path, and the local controller will steer the robot around dynamic obstacles to the destination!
 
 ---
 
@@ -276,20 +286,21 @@ Slam/
 
 ---
 
-## 🔧 Troubleshooting & Tips
+## 🔧 Troubleshooting & Common Errors
 
 <details>
-<summary><b>1. Gazebo or RViz does not open / display permission error</b></summary>
+<summary><b>1. "Authorization required, but no authorization protocol specified" or "libEGL warning: failed to open /dev/dri/renderD128: Permission denied"</b></summary>
 
-Execute `xhost +` in your host terminal to give GUI permission to Docker containers:
+This error occurs when the container cannot access the host's X11 display server or GPU rendering device.
+**Fix**: Run `xhost +` in a host terminal before running the simulation:
 ```bash
-xhost +local:root
 xhost +
 ```
+Additionally, `/dev/dri` and user video group permissions have already been configured in `docker-compose.yaml`.
 </details>
 
 <details>
-<summary><b>2. Robot seems stuck or paused</b></summary>
+<summary><b>2. Gazebo window freezes or robot does not move</b></summary>
 
 Make sure physics simulation is active in Gazebo by pressing the **Play (▷)** button in the lower toolbar.
 </details>
