@@ -69,6 +69,11 @@ RUN sudo echo ". /opt/ros/${ROS_DISTRO}/setup.bash" >> ~/.bashrc && \
     sudo echo ". ${EXERCISES_WS}/install/setup.bash" >> ~/.bashrc && \
     sudo echo ". ${ROS2_WS}/install/setup.bash" >> ~/.bashrc
 
+# Copy auto explorer node
+COPY auto_explore.py ${EXERCISES_WS}/src/auto_explore.py
+RUN sudo cp ${EXERCISES_WS}/src/auto_explore.py /usr/local/bin/auto_explore && \
+    sudo chmod +x /usr/local/bin/auto_explore ${EXERCISES_WS}/src/auto_explore.py
+
 WORKDIR /home/user/exercises_ws
 
 # Source ROS in the main terminal

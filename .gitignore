@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+
+# ROS 2 / Colcon
+build/
+install/
+log/
+COLCON_IGNORE
+
+# Generated Maps
+*.pgm
+*.png.backup
+andino_map.yaml
+andino_map.png
+
+# Editors & IDEs
+.vscode/
+.idea/
+*.swp
+*~
+.DS_Store
